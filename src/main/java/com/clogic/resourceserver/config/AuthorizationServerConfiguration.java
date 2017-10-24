@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
@@ -70,37 +72,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return services;
     }
 
-    /*@Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints
-                .authenticationManager(authentication -> {
-
-                    Authentication newAuth = null;
-
-                    String password = authentication.getCredentials().toString();
-                    Object details = authentication.getDetails();
-
-                    Gson gson = new Gson();
-                    JsonElement element = gson.toJsonTree(details);
-                    JsonObject object = element.getAsJsonObject();
-
-                    String username = object.get("username").getAsString();
-
-                    LOGGER.debug("DATA -- " + password + "\nDetails : " + username);
-
-                    User user = userService.getUserByEmailId(username);
-
-                    LOGGER.debug("User : " + user.toString());
-
-
-                    if (user != null && SecurityUtils.validatePassword(password, user.getPassword(), user.getSalt(), user.getIterations())) {
-                        newAuth = new UsernamePasswordAuthenticationToken(username, user.getPassword(), null);
-                    }
-
-                    return newAuth;
-
-                }).tokenServices(tokenServices());
-    }*/
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
