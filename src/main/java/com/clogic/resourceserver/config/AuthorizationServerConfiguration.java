@@ -29,7 +29,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private String resourceId;
     private static final int ACCESS_TOKEN_EXPIRY_TIME = 5000;
     private static final int REFRESH_TOKEN_EXPIRY_TIME = 6000;
-    String jwtSecret = "ThisIsASecret@1212";
+
+    @Value("${jwt.secret}")
+    String jwtSecret;
 
     @Autowired
     private UserService userService;
