@@ -13,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "userID")
@@ -58,4 +57,20 @@ public class User {
 
     private Integer contactCenter;
     private Integer customer;
+
+    public static User getUserFromJsonUser(JsonUser jsonUser){
+        User user = new User();
+        user.setFullName(jsonUser.getFullName());
+        user.setUserName(jsonUser.getUserName());
+        user.setEmailId(jsonUser.getEmailId());
+        user.setPassword(jsonUser.getPassword());
+        user.setSalt(jsonUser.getSalt());
+        user.setIterations(jsonUser.getIterations());
+        user.setRole(jsonUser.getRole());
+        user.setStatus(jsonUser.getStatus());
+        user.setContactCenter(jsonUser.getContactCenter());
+        user.setCustomer(jsonUser.getCustomer());
+
+        return user;
+    }
 }
